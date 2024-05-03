@@ -1,0 +1,10 @@
+einops==0.7.0
+matplotlib==3.7.5
+cartopy==0.21.1
+notebook==7.1.2
+gif==3.0.0
+py-spy==0.3.14
+tqdm==4.65.0
+argparse_dataclass==2.0.0
+tensorflow_hub==0.16.1
+shapely==2.0.3 --no-binary=shapely

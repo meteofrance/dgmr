@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File List</title>
+</head>
+<body>
+    <h1>Available Files:</h1>
+
+    <h2>GIF Files:</h2>
+    <ul>
+        {% for gif_file in gif_files %}
+            <li><a href="/view_gif/{{ gif_file }}">{{ gif_file }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <h2>PNG Files:</h2>
+    <ul>
+        {% for png_file in png_files %}
+            <li><a href="/view_image/{{ png_file }}">{{ png_file }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

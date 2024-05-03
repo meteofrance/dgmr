@@ -1,0 +1,18 @@
+from pathlib import Path
+
+SCRATCH_PATH = Path("/scratch")
+SHARED_PATH = SCRATCH_PATH / "shared"
+DGMR_PATH = SHARED_PATH / "dgmr"
+MODEL_PATH = DGMR_PATH / "models"
+DATA_PATH = SHARED_PATH / "RADAR_DATA" / "lame_eau_npz"
+HEXAGONE_DATA_PATH = DATA_PATH / "Hexagone"
+PROD_PATH = DGMR_PATH / "prototype"
+PLOT_PATH = PROD_PATH / "plot"
+
+SERVER_PORT = 10999
+
+INPUT_STEPS = 4
+PRED_STEPS = 18
+TIMESTEP = 5  # minutes
+NUM_MEMBERS = 1
+SIZE_IMG = (1536, 1280)
