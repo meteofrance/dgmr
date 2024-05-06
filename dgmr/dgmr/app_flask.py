@@ -21,6 +21,11 @@ def read_with_lock(path_file, mimetype):
             time.sleep(1)
 
 
+@app.route("/last_forecast")
+def view_last_forecast():
+    return read_with_lock(PLOT_PATH / "last_forecast.gif", "image/gif")
+
+
 @app.route("/last_gif")
 def view_last_gif():
     return read_with_lock(PLOT_PATH / "last_gif.gif", "image/gif")

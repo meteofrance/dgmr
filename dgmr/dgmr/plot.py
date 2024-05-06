@@ -9,7 +9,7 @@ import numpy as np
 from cartopy.crs import PlateCarree, Stereographic
 from tqdm import trange
 
-from dgmr.settings import PLOT_PATH, PRED_STEPS, TIMESTEP
+from dgmr.settings import INPUT_STEPS, PLOT_PATH, PRED_STEPS, TIMESTEP
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -91,15 +91,17 @@ def plot_error_per_leadtime(y_hat: list, y: np.ndarray, run_date: datetime):
         2,
         5,
         11,
-    )  # , 17)  # Corresponding to +15, +30, +60 and +90 minutes
+        17,
+    )  # Corresponding to +15, +30, +60 and +90 minutes
 
     subplot_kw = {"projection": Stereographic(central_latitude=45)}
     fig, axs = plt.subplots(
         nrows=len(leadtimes_to_plot),
         ncols=3,
-        figsize=(10, 10),
+        figsize=(12, 15),
         subplot_kw=subplot_kw,
         dpi=300,
+        layout="constrained",
     )
     plot_kwargs = {"extent": EXTENT, "interpolation": "none"}
     axs[0, 0].set_title("Observation", fontsize=20)
@@ -112,7 +114,7 @@ def plot_error_per_leadtime(y_hat: list, y: np.ndarray, run_date: datetime):
         img_y = axs[i, 0].imshow(y_leadtime, norm=NORM, cmap=CMAP, **plot_kwargs)
         axs[i, 0].add_feature(cfeature.BORDERS.with_scale("50m"), edgecolor="black")
         axs[i, 0].coastlines(resolution="50m", color="black", linewidth=1)
-        axs[i, 0].set_ylabel(f"+ {leadtime * TIMESTEP} min")
+        
 
         # Prediction
         y_hat_leadtime = y_hat[leadtime]
@@ -123,17 +125,17 @@ def plot_error_per_leadtime(y_hat: list, y: np.ndarray, run_date: datetime):
         # Difference
         error_leadtime = y_leadtime - y_hat_leadtime
         img_error = axs[i, 2].imshow(
-            error_leadtime, cmap="PiYG", vmin=-20, vmax=20, **plot_kwargs
+            error_leadtime, cmap="seismic", vmin=-20, vmax=20, **plot_kwargs
         )
         axs[i, 2].add_feature(cfeature.BORDERS.with_scale("50m"), edgecolor="black")
         axs[i, 2].coastlines(resolution="50m", color="black", linewidth=1)
+        axs[i, 2].set_facecolor('black')
 
-    fig.suptitle(f"Run: {run_date.strftime('%Y-%m-%d %H:%M')}", fontsize=25, y=0.95)
-    plt.subplots_adjust(wspace=0.1, hspace=0.05, bottom=0.1)
+    fig.suptitle(f"Run: {run_date.strftime('%Y-%m-%d %H:%M')} - Difference for 15, 30, 60, 90 minutes", fontsize=25)
 
     # Colorbar Obs + Prev
     cb = fig.colorbar(
-        img_y, ax=axs[-1, :2], orientation="horizontal", fraction=0.04, pad=0.05
+        img_y, ax=axs[-1, :2], orientation="horizontal", fraction=0.07, pad=0.05
     )
     cb.set_label(label="Lame d'eau (mm/h)", fontsize=15)
 
@@ -147,8 +149,11 @@ def plot_error_per_leadtime(y_hat: list, y: np.ndarray, run_date: datetime):
     plt.savefig(dest_path)
 
 
+#############################################
+
+
 @gif.frame
-def plot_predict(y_hat: list, y: np.ndarray, run_date: datetime, delta: int):
+def plot_predict_comparison(y_hat: list, y: np.ndarray, run_date: datetime, delta: int):
     """
     y_hat: np.ndarray = prediction made by the model
     y: np.ndarray = ground truth
@@ -192,10 +197,54 @@ def plot_predict(y_hat: list, y: np.ndarray, run_date: datetime, delta: int):
     fig.suptitle(f"Run: {run_date} | + {delta:02} min", fontsize=20, y=0.97)
 
 
-def plot_gif(y_hat: np.ndarray, y: np.ndarray, date: datetime):
+def plot_gif_comparison(y_hat: np.ndarray, y: np.ndarray, date: datetime):
     """Plot gif of prediction versus ground truth."""
     images = []
-    for i in trange(1, PRED_STEPS + 1):
-        images.append(plot_predict(y_hat[i - 1], y[i - 1], date, i * TIMESTEP))
+    for i in trange(PRED_STEPS + INPUT_STEPS):
+        delta = (i - INPUT_STEPS + 1) * TIMESTEP
+        images.append(plot_predict_comparison(y_hat[i], y[i], date, delta))
     dest_path = PLOT_PATH / "last_gif.gif"
+    gif.save(images, dest_path, duration=200)
+
+
+###################################################
+
+
+@gif.frame
+def plot_forecast(y_hat: list, run_date: datetime, delta: int):
+    """
+    y_hat: np.ndarray = prediction made by the model
+    date: datetime
+    """
+    fig = plt.figure(figsize=(12, 12), dpi=300)
+    ax = plt.axes(projection=Stereographic(central_latitude=45))
+
+    plot_kwargs = {
+        "extent": EXTENT,
+        "interpolation": "none",
+        "norm": NORM,
+        "cmap": CMAP,
+    }
+
+    # Prediction
+    img = ax.imshow(y_hat, **plot_kwargs)
+    ax.add_feature(cfeature.BORDERS.with_scale("50m"), edgecolor="black")
+    ax.coastlines(resolution="50m", color="black", linewidth=1)
+    ax.set_title("Prévisions", fontsize=20)
+
+    # Colorbar
+    cb = fig.colorbar(img, ax=ax, orientation="horizontal", fraction=0.04, pad=0.05)
+    cb.set_label(label="Précipitations en mm/h", fontsize=15)
+
+    run_date = run_date.strftime("%Y-%m-%d %H:%M")
+    fig.suptitle(f"Run: {run_date} | + {delta:02} min", fontsize=20, y=0.97)
+
+
+def plot_gif_forecast(y_hat: np.ndarray, date: datetime):
+    """Plot gif of prediction versus ground truth."""
+    images = []
+    for i in trange(PRED_STEPS + INPUT_STEPS):
+        delta = (i - INPUT_STEPS + 1) * TIMESTEP
+        images.append(plot_forecast(y_hat[i], date, delta))
+    dest_path = PLOT_PATH / "last_forecast.gif"
     gif.save(images, dest_path, duration=200)
