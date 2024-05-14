@@ -20,7 +20,7 @@ def hex_to_rgb(hex):
 
 
 COLORS_REFLECTIVITY = [  # 14 colors
-    hex_to_rgb("FFFFFFFF"),
+    hex_to_rgb("E5E5E5"),
     hex_to_rgb("6600CBFF"),
     hex_to_rgb("0000FFFF"),
     hex_to_rgb("00B2FFFF"),
