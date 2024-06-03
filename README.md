@@ -21,19 +21,24 @@ This repository applies the Deep Generative Model of Rainfall (DGMR) developed b
 - Easy-to-use interface for generating forecasts
 
 ## Installation
-### Prerequisites
-- Python 3.8 or higher
-- pip
 
 ### Clone the Repository
+
 ```bash
-git clone https://github.com/yourusername/rainfall-nowcasting.git
-cd rainfall-nowcasting
+git clone https://github.com/meteofrance/dgmr
+cd dgmr
 ```
 
-### Install Dependencies
+### Install environment
+
+With micromamba or conda:
+
 ```bash
-pip install -r requirements.txt
+micromamba create -f environment.yml
+```
+
+```bash
+micromamba activate dgmr
 ```
 
 ### Set Up Environment Variables
