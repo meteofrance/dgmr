@@ -1,5 +1,6 @@
 import ssl
 from datetime import datetime
+from pathlib import Path
 
 import cartopy.feature as cfeature
 import gif
@@ -9,9 +10,7 @@ import numpy as np
 from cartopy.crs import PlateCarree, Stereographic
 from tqdm import trange
 
-from pathlib import Path
-
-from dgmr.settings import INPUT_STEPS, PLOT_PATH, PRED_STEPS, TIMESTEP
+from dgmr.settings import INPUT_STEPS, PRED_STEPS, TIMESTEP
 
 ssl._create_default_https_context = ssl._create_unverified_context
 

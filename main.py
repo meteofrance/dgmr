@@ -11,16 +11,17 @@ from typing import List
 import numpy as np
 import tensorflow as tf
 
-from dgmr.plot import plot_gif_forecast
 from dgmr.model import predict
+from dgmr.plot import plot_gif_forecast
 from dgmr.settings import (
-    RADAR_IMG_SIZE,
     DATA_PATH,
-    INPUT_STEPS,
     INPUT_IMG_SIZE,
+    INPUT_STEPS,
+    PLOT_PATH,
+    RADAR_IMG_SIZE,
     TIMESTEP,
-    PLOT_PATH
 )
+
 
 def get_list_files(date: dt.datetime) -> List[Path]:
     delta = dt.timedelta(minutes=TIMESTEP)
@@ -49,7 +50,9 @@ def postprocessing(array: np.ndarray, mask: np.ndarray) -> np.ndarray:
     mask = np.tile(mask, (array.shape[0], 1, 1))
     array = np.where(mask == 1, np.nan, array)
     # Get back to the full radar grid, that we cropped to fit in the neural network
-    full_array = np.nan * np.ones((array.shape[0], RADAR_IMG_SIZE[0], RADAR_IMG_SIZE[1]))
+    full_array = np.nan * np.ones(
+        (array.shape[0], RADAR_IMG_SIZE[0], RADAR_IMG_SIZE[1])
+    )
     full_array[:, :, : INPUT_IMG_SIZE[1]] = array
     return full_array
 

@@ -50,7 +50,7 @@ def predict(x: tf.Tensor, num_members=1):
     _, input_signature = model.structured_input_signature
     z_size = input_signature["z"].shape[1]
     z_samples = tf.random.normal(shape=(num_members, z_size))
-    if num_members == 1: # Constant perturbation when only 1 member
+    if num_members == 1:  # Constant perturbation when only 1 member
         z_samples = z_samples * 0
 
     inputs = {
@@ -61,4 +61,4 @@ def predict(x: tf.Tensor, num_members=1):
 
     print("--> Predict....")
     output = model(**inputs)["default"]  # returns input + output frames = 22 frames
-    return output[:,:,:,:,0] # remove channel dims
+    return output[:, :, :, :, 0]  # remove channel dims
