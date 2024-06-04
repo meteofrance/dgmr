@@ -41,6 +41,19 @@ micromamba create -f environment.yml
 micromamba activate dgmr
 ```
 
+### Create the API key on the Météo-France's portal 
+
+If you already don't have an account on the [Météo-France's portal](https://portail-api.meteofrance.fr/web/en/), please create one.
+
+1. Once connected, search to suscribe to the **Radar data** API (not the "Radar Package" one).
+
+2. Then click on **Configure the API**
+
+3. Select **API Key** as the token type, **enter the duration** (in seconds) and **Generate Token**. 
+
+4. **Copy the token**, you will need it in the next step.
+
+
 ### Set Up Environment Variables
 Create a `.env` file in the root directory and add your configuration settings:
 ```plaintext
