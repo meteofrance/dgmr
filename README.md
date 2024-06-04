@@ -1,6 +1,6 @@
 # Rainfall Nowcasting on France using DGMR model
 
-This repository applies the Deep Generative Model of Rainfall (DGMR) developed by Google DeepMindto Meteo-France rainfall data. The goal of this project is to provide accurate short-term rainfall forecasts (nowcasting) on France.
+This repository applies the Deep Generative Model of Rainfall (DGMR) developed by Google DeepMind to Meteo-France rainfall data. The goal of this project is to provide accurate short-term rainfall forecasts (nowcasting) on France.
 
 ## Table of Contents
 - [Features](#features)
