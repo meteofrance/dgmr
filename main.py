@@ -42,7 +42,6 @@ if __name__ == "__main__":
     print(f"---> Making DGMR forecast for date {run_date}")
 
     file_paths = get_list_files(run_date)
-    print(file_paths)
     if not all([f.exists() for f in file_paths]):
         raise FileNotFoundError("Some radar files are not available")
 
