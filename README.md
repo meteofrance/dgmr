@@ -45,6 +45,7 @@ micromamba activate dgmr
 Create a `.env` file in the root directory and add your configuration settings:
 ```plaintext
 METEO_FRANCE_API_KEY="<your_meteo_france_api_key>"
+METEO_FRANCE_DATA_PATH="<path_to_save_the_data_downloaded>"  # If empty downloaded data will be saved in ./data
 ```
 
 ### Download the pretrained model from Deepmind
@@ -52,6 +53,18 @@ METEO_FRANCE_API_KEY="<your_meteo_france_api_key>"
 Go to this [Google Cloud Storage](https://console.cloud.google.com/storage/browser/dm-nowcasting-example-data?pageState=(%22StorageObjectListTable%22:(%22f%22:%22%255B%255D%22))&project=friendly-retina-382415) link and download all the files and sub-folders in `dm-nowcasting-example-data/tfhub_snapshots/1536x1280` (this folder contains the pre-trained model with a size of 1536x1280).
 
 ## Usage
+
+### Setting up a Cron Job for Automated Data Download
+
+To automate the data download process using a cron job, follow these steps:
+
+1. Open your terminal and type `crontab -e` to edit the cron table.
+
+2. Add a new line at the end of the file to define the cron job. The general syntax for a cron task is:
+    ```plaintext
+    */5 * * * * ./dgmr/download_data.sh
+    ```
+
 To generate a rainfall nowcast, use the following command:
 TODO
 ```bash
