@@ -4,7 +4,7 @@ channels:
 dependencies:
   - python==3.10.13
   - tensorflow==2.16.1
-  - tensorflow_hub==0.16.1
+  - tensorflow-hub==0.16.1
   - einops==0.8.0
   - numpy==1.26.4
   - matplotlib==3.8.4
@@ -12,3 +12,4 @@ dependencies:
   - gif==23.3.0
   - h5py==3.11.0
   - tqdm==4.66.4
+  - python-dotenv==1.0.1
