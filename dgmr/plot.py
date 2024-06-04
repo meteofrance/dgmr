@@ -1,5 +1,6 @@
 import ssl
 from datetime import datetime
+from pathlib import Path
 
 import cartopy.feature as cfeature
 import gif
@@ -9,7 +10,7 @@ import numpy as np
 from cartopy.crs import PlateCarree, Stereographic
 from tqdm import trange
 
-from dgmr.settings import INPUT_STEPS, PLOT_PATH, PRED_STEPS, TIMESTEP
+from dgmr.settings import INPUT_STEPS, PRED_STEPS, TIMESTEP
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -83,136 +84,9 @@ def domain_to_extent(domain):
 EXTENT = domain_to_extent(DOMAIN)
 
 
-def plot_error_per_leadtime(y_hat: list, y: np.ndarray, run_date: datetime):
-    """
-    Plot side by side the prediction, the ground truth and the difference between them.
-    """
-    leadtimes_to_plot = (
-        2,
-        5,
-        11,
-        17,
-    )  # Corresponding to +15, +30, +60 and +90 minutes
-
-    subplot_kw = {"projection": Stereographic(central_latitude=45)}
-    fig, axs = plt.subplots(
-        nrows=len(leadtimes_to_plot),
-        ncols=3,
-        figsize=(12, 15),
-        subplot_kw=subplot_kw,
-        dpi=300,
-        layout="constrained",
-    )
-    plot_kwargs = {"extent": EXTENT, "interpolation": "none"}
-    axs[0, 0].set_title("Observation", fontsize=20)
-    axs[0, 1].set_title("Prévision", fontsize=20)
-    axs[0, 2].set_title("Observation - Prévision", fontsize=20)
-
-    for i, leadtime in enumerate(leadtimes_to_plot):
-        # Observation
-        y_leadtime = y[leadtime]
-        img_y = axs[i, 0].imshow(y_leadtime, norm=NORM, cmap=CMAP, **plot_kwargs)
-        axs[i, 0].add_feature(cfeature.BORDERS.with_scale("50m"), edgecolor="black")
-        axs[i, 0].coastlines(resolution="50m", color="black", linewidth=1)
-        
-
-        # Prediction
-        y_hat_leadtime = y_hat[leadtime]
-        axs[i, 1].imshow(y_hat_leadtime, norm=NORM, cmap=CMAP, **plot_kwargs)
-        axs[i, 1].add_feature(cfeature.BORDERS.with_scale("50m"), edgecolor="black")
-        axs[i, 1].coastlines(resolution="50m", color="black", linewidth=1)
-
-        # Difference
-        error_leadtime = y_leadtime - y_hat_leadtime
-        img_error = axs[i, 2].imshow(
-            error_leadtime, cmap="seismic", vmin=-20, vmax=20, **plot_kwargs
-        )
-        axs[i, 2].add_feature(cfeature.BORDERS.with_scale("50m"), edgecolor="black")
-        axs[i, 2].coastlines(resolution="50m", color="black", linewidth=1)
-        axs[i, 2].set_facecolor('black')
-
-    fig.suptitle(f"Run: {run_date.strftime('%Y-%m-%d %H:%M')} - Difference for 15, 30, 60, 90 minutes", fontsize=25)
-
-    # Colorbar Obs + Prev
-    cb = fig.colorbar(
-        img_y, ax=axs[-1, :2], orientation="horizontal", fraction=0.07, pad=0.05
-    )
-    cb.set_label(label="Lame d'eau (mm/h)", fontsize=15)
-
-    # Colorbar Erreur
-    cb_diff = fig.colorbar(
-        img_error, ax=axs[-1, 2], orientation="horizontal", fraction=0.04, pad=0.05
-    )
-    cb_diff.set_label(label="Différence (mm/h)", fontsize=15)
-
-    dest_path = PLOT_PATH / "last_error.png"
-    plt.savefig(dest_path)
-
-
-#############################################
-
-
-@gif.frame
-def plot_predict_comparison(y_hat: list, y: np.ndarray, run_date: datetime, delta: int):
-    """
-    y_hat: np.ndarray = prediction made by the model
-    y: np.ndarray = ground truth
-    extent: tuple = tuple containing the coordinates of the crop.
-    date: datetime
-    """
-    subplot_kw = {"projection": Stereographic(central_latitude=45)}
-    fig, axs = plt.subplots(
-        nrows=1,
-        ncols=2,
-        figsize=(15, 7.5),
-        subplot_kw=subplot_kw,
-        dpi=300,
-    )
-    plot_kwargs = {
-        "extent": EXTENT,
-        "interpolation": "none",
-        "norm": NORM,
-        "cmap": CMAP,
-    }
-
-    # Observation
-    img = axs[0].imshow(y, **plot_kwargs)
-    axs[0].add_feature(cfeature.BORDERS.with_scale("50m"), edgecolor="black")
-    axs[0].coastlines(resolution="50m", color="black", linewidth=1)
-    axs[0].set_title("Observations", fontsize=20)
-
-    # Prediction
-    img = axs[1].imshow(y_hat, **plot_kwargs)
-    axs[1].add_feature(cfeature.BORDERS.with_scale("50m"), edgecolor="black")
-    axs[1].coastlines(resolution="50m", color="black", linewidth=1)
-    axs[1].set_title("Prévisions", fontsize=20)
-
-    # Colorbar
-    cb = fig.colorbar(
-        img, ax=axs[:2], orientation="horizontal", fraction=0.04, pad=0.05
-    )
-    cb.set_label(label="Précipitations en mm/h", fontsize=15)
-
-    run_date = run_date.strftime("%Y-%m-%d %H:%M")
-    fig.suptitle(f"Run: {run_date} | + {delta:02} min", fontsize=20, y=0.97)
-
-
-def plot_gif_comparison(y_hat: np.ndarray, y: np.ndarray, date: datetime):
-    """Plot gif of prediction versus ground truth."""
-    images = []
-    for i in trange(PRED_STEPS + INPUT_STEPS):
-        delta = (i - INPUT_STEPS + 1) * TIMESTEP
-        images.append(plot_predict_comparison(y_hat[i], y[i], date, delta))
-    dest_path = PLOT_PATH / "last_gif.gif"
-    gif.save(images, dest_path, duration=200)
-
-
-###################################################
-
-
 @gif.frame
 def plot_forecast(y_hat: list, run_date: datetime, delta: int):
-    """
+    """Plots one frame of the forecast gif.
     y_hat: np.ndarray = prediction made by the model
     date: datetime
     """
@@ -240,11 +114,10 @@ def plot_forecast(y_hat: list, run_date: datetime, delta: int):
     fig.suptitle(f"Run: {run_date} | + {delta:02} min", fontsize=20, y=0.97)
 
 
-def plot_gif_forecast(y_hat: np.ndarray, date: datetime):
-    """Plot gif of prediction versus ground truth."""
+def plot_gif_forecast(y_hat: np.ndarray, date: datetime, save_path: Path):
+    """Plots a gif of the forecast."""
     images = []
     for i in trange(PRED_STEPS + INPUT_STEPS):
         delta = (i - INPUT_STEPS + 1) * TIMESTEP
         images.append(plot_forecast(y_hat[i], date, delta))
-    dest_path = PLOT_PATH / "last_forecast.gif"
-    gif.save(images, dest_path, duration=200)
+    gif.save(images, str(save_path), duration=200)

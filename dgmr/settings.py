@@ -1,19 +1,13 @@
 from pathlib import Path
 
-SCRATCH_PATH = Path("/scratch")
-SHARED_PATH = SCRATCH_PATH / "shared"
-DGMR_PATH = SHARED_PATH / "dgmr"
-MODEL_PATH = DGMR_PATH / "models"
-DATA_PATH = SHARED_PATH / "RADAR_DATA" / "lame_eau_npz"
-HEXAGONE_DATA_PATH = DATA_PATH / "Hexagone"
-PROD_PATH = DGMR_PATH / "prototype"
-PLOT_PATH = PROD_PATH / "plot"
-
-SERVER_PORT = 10999
+MODEL_PATH = Path("/scratch/shared/dgmr/models")
+DATA_PATH = Path("/scratch/shared/RADAR_DATA/lame_eau_npz/Hexagone")
+PLOT_PATH = Path(__file__).parents[1] / "plot"
+if not PLOT_PATH.exists():
+    PLOT_PATH.mkdir(exist_ok=True)
 
 INPUT_STEPS = 4
 PRED_STEPS = 18
 TIMESTEP = 5  # minutes
-NUM_MEMBERS = 1
-SIZE_IMG = (1536, 1280)
-FULL_SIZE = (1536, 1536)
+RADAR_IMG_SIZE = (1536, 1536)
+INPUT_IMG_SIZE = (1536, 1280)
