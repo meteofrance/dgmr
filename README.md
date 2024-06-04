@@ -67,15 +67,21 @@ Go to this [Google Cloud Storage](https://console.cloud.google.com/storage/brows
 
 ## Usage
 
+### Downloading data with Meteo-France's API
+
+Simply run the script `./dgmr/download_data.sh` to download the latest radar images.
+
 ### Setting up a Cron Job for Automated Data Download
 
-To automate the data download process using a cron job, follow these steps:
+For real time forecasting, we need to download the radar data every 5 minutes.
+
+To automate the data downloading process using a cron job, follow these steps:
 
 1. Open your terminal and type `crontab -e` to edit the cron table.
 
 2. Add a new line at the end of the file to define the cron job. The general syntax for a cron task is:
-    ```plaintext
-    */5 * * * * ./dgmr/download_data.sh
+    ```bash
+    */5 * * * * <ABSOLUTE_PATH_TO_REPO>/dgmr/download_data.sh
     ```
 
 To generate a rainfall nowcast, use the following command:
