@@ -65,9 +65,9 @@ NORM = mcolors.BoundaryNorm(BOUNDARIES, CMAP.N, clip=True)
 
 DOMAIN = {
     "upper_left": (-9.965, 53.670),
-    "lower_right": (10.259217, 39.46785),
-    "upper_right": (14.564706, 53.071644),
-    "lower_left": (-6.977881, 39.852361),
+    "lower_right": (11.976055, 37.457460),
+    "upper_right": (17.564203, 52.548138),
+    "lower_left": (-6.715173, 38.144933),
 }
 
 
