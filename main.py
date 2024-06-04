@@ -67,12 +67,10 @@ if __name__ == "__main__":
     )
 
     run_date = date - dt.timedelta(minutes=15)
-    run_date = dt.datetime(2024, 5, 31, 14)
 
     print(f"---> Making DGMR forecast for date {run_date}")
 
     file_paths = get_list_files(run_date)
-    print([f.exists() for f in file_paths])
     if not all([f.exists() for f in file_paths]):
         print("ERROR : some files are not available ! Exiting...")
         exit()
@@ -81,7 +79,6 @@ if __name__ == "__main__":
     input_tensor = tf.convert_to_tensor(x_array, dtype=tf.float32)
 
     output = predict(input_tensor)[0]
-    print(output.shape)
 
     output = postprocessing(output, mask)
 
