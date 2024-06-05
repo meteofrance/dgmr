@@ -95,7 +95,7 @@ python main.py
 
 This scripts expects that you have already downloaded the 4 latest radar images.
 
-It saves the forecast as a gif in the plot folder.
+It saves the forecast as a gif in the plot folder defined by the `DGMR_PLOT_PATH` env variable.
 
 
 ## Data Sources
