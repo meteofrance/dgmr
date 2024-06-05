@@ -53,17 +53,18 @@ If you already don't have an account on the [Météo-France's portal](https://po
 
 4. **Copy the token**, you will need it in the next step.
 
+### Download the pretrained model from Deepmind
+
+Go to this [Google Cloud Storage](https://console.cloud.google.com/storage/browser/dm-nowcasting-example-data?pageState=(%22StorageObjectListTable%22:(%22f%22:%22%255B%255D%22))&project=friendly-retina-382415) link and download all the files and sub-folders in `dm-nowcasting-example-data/tfhub_snapshots/1536x1280` (this folder contains the pre-trained model with a size of 1536x1280).
 
 ### Set Up Environment Variables
 Create a `.env` file in the root directory and add your configuration settings:
 ```plaintext
 METEO_FRANCE_API_KEY="<your_meteo_france_api_key>"
-METEO_FRANCE_DATA_PATH="<path_to_save_the_data_downloaded>"  # If empty downloaded data will be saved in ./data
+METEO_FRANCE_DATA_PATH="<path_to_save_the_downloaded_data>"  # If empty, downloaded data will be saved in ./data
+DGMR_MODEL_PATH="<path_to_the_pretrained_dgmr_folder>"
+DGMR_PLOT_PATH="<path_to_save_the_plots>"
 ```
-
-### Download the pretrained model from Deepmind
-
-Go to this [Google Cloud Storage](https://console.cloud.google.com/storage/browser/dm-nowcasting-example-data?pageState=(%22StorageObjectListTable%22:(%22f%22:%22%255B%255D%22))&project=friendly-retina-382415) link and download all the files and sub-folders in `dm-nowcasting-example-data/tfhub_snapshots/1536x1280` (this folder contains the pre-trained model with a size of 1536x1280).
 
 ## Usage
 
