@@ -20,9 +20,10 @@ get_rounded_date() {
 
     if [ $rounded_minutes -eq 60 ]; then
         rounded_minutes=0
-        date +"%Y-%m-%d_%H-00" -d "+1 hour"
+        date +"%Y_%m_%d_%H_00" -d "+1 hour"
     else
-        date +"%Y-%m-%d_%H-$rounded_minutes"
+        printf -v rounded_minutes "%02d" $rounded_minutes
+        date +"%Y_%m_%d_%H_$rounded_minutes"
     fi
 }
 
