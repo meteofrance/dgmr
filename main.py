@@ -43,13 +43,12 @@ def make_forecast(x_array:np.ndarray)->np.ndarray:
 if __name__ == "__main__":
 
     date = dt.datetime.now(dt.timezone.utc)
-    date = date - dt.timedelta(  # round date to 15 minutes
-        minutes=date.minute % 15,
+    date = date - dt.timedelta(  # round date to 5 minutes
+        minutes=date.minute % 5,
         seconds=date.second,
         microseconds=date.microsecond,
     )
-
-    run_date = date - dt.timedelta(minutes=15)
+    run_date = date - dt.timedelta(minutes=5)  # Remove 5min to be sure data was downloaded
 
     print(f"---> Making DGMR forecast for date {run_date}")
 

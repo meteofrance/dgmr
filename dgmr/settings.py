@@ -1,8 +1,17 @@
 from pathlib import Path
+import os
 
-MODEL_PATH = Path("/scratch/shared/dgmr/models")
-DATA_PATH = Path("/scratch/shared/beautiful_radar/data/radar/lame_eau_500m_npz")
-PLOT_PATH = Path(__file__).parents[1] / "plot"
+from dotenv import load_dotenv
+
+load_dotenv()
+
+DATA_PATH = os.getenv("METEO_FRANCE_DATA_PATH")
+DATA_PATH = Path("data/") if DATA_PATH == "" else Path(DATA_PATH)
+
+MODEL_PATH = Path(os.getenv("DGMR_MODEL_PATH"))
+
+PLOT_PATH = os.getenv("DGMR_MODEL_PATH")
+PLOT_PATH = Path("plot/") if PLOT_PATH == "" else Path(PLOT_PATH)
 if not PLOT_PATH.exists():
     PLOT_PATH.mkdir(exist_ok=True)
 

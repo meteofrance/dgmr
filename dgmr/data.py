@@ -4,6 +4,7 @@ from typing import List
 
 import numpy as np
 from scipy.ndimage import zoom
+import h5py
 
 from dgmr.settings import DATA_PATH, INPUT_STEPS, TIMESTEP
 
@@ -11,15 +12,13 @@ from dgmr.settings import DATA_PATH, INPUT_STEPS, TIMESTEP
 def get_list_files(date: dt.datetime) -> List[Path]:
     delta = dt.timedelta(minutes=TIMESTEP)
     dates = [date + i * delta for i in range(-INPUT_STEPS + 1, 1)]
-    filenames = [d.strftime("%Y%m%d%H%M.npz") for d in dates]
+    filenames = [d.strftime("%Y_%m_%d_%H_%M.h5") for d in dates]
     return [DATA_PATH / f for f in filenames]
 
 
 def open_radar_file(path: Path) -> np.ndarray:
-    # with h5py.File(path, "r") as ds:
-    #     array = np.array(ds["dataset1"]["data1"]["data"])
-    array = np.load(path)["arr_0"]
-    # TODO : uncomment when using h5 files
+    with h5py.File(path, "r") as ds:
+        array = np.array(ds["dataset1"]["data1"]["data"])
     return array
 
 
