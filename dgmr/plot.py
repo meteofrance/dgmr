@@ -104,11 +104,11 @@ def plot_forecast(y_hat: list, run_date: datetime, delta: int):
     img = ax.imshow(y_hat, **plot_kwargs)
     ax.add_feature(cfeature.BORDERS.with_scale("50m"), edgecolor="black")
     ax.coastlines(resolution="50m", color="black", linewidth=1)
-    ax.set_title("Prévisions", fontsize=20)
+    ax.set_title("Forecast", fontsize=20)
 
     # Colorbar
     cb = fig.colorbar(img, ax=ax, orientation="horizontal", fraction=0.04, pad=0.05)
-    cb.set_label(label="Précipitations en mm/h", fontsize=15)
+    cb.set_label(label="Precipitations (mm/h)", fontsize=15)
 
     run_date = run_date.strftime("%Y-%m-%d %H:%M")
     fig.suptitle(f"Run: {run_date} | + {delta:02} min", fontsize=20, y=0.97)

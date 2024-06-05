@@ -27,7 +27,7 @@ def load_model(image_size: tuple):
     return model
 
 
-def predict(x: tf.Tensor, num_members=1):
+def predict(x: tf.Tensor, model, num_members=1):
     """Makes a prediction from the DGMR TF-Hub snapshot.
 
     Args:
@@ -38,8 +38,6 @@ def predict(x: tf.Tensor, num_members=1):
     Returns:
       A tensor of shape (num_members, T_in+T_out, H, W), where T_out=18.
     """
-    image_size = x.shape[1:3]
-    model = load_model(image_size)
 
     x = tf.expand_dims(x, 0)  # Add batch dimension
 
