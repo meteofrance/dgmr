@@ -66,7 +66,7 @@ Create a `.env` file in the root directory and add your configuration settings:
 METEO_FRANCE_API_KEY="<your_meteo_france_api_key>"
 METEO_FRANCE_DATA_PATH="<path_to_save_the_downloaded_data>"  # If empty, downloaded data will be saved in ./data
 DGMR_MODEL_PATH="<path_to_the_pretrained_dgmr_folder>"
-DGMR_PLOT_PATH="<path_to_save_the_plots>"
+DGMR_PLOT_PATH="<path_to_save_the_plots>"  # If empty, forecasts gifs will be saved in ./plot
 ```
 
 ## Usage

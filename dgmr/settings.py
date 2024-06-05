@@ -10,7 +10,8 @@ DATA_PATH = Path("data/") if DATA_PATH == "" else Path(DATA_PATH)
 
 MODEL_PATH = Path(os.getenv("DGMR_MODEL_PATH"))
 
-PLOT_PATH = Path("DGMR_PLOT_PATH")
+PLOT_PATH = os.getenv("DGMR_MODEL_PATH")
+PLOT_PATH = Path("plot/") if PLOT_PATH == "" else Path(PLOT_PATH)
 if not PLOT_PATH.exists():
     PLOT_PATH.mkdir(exist_ok=True)
 
