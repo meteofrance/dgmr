@@ -1,6 +1,7 @@
 # Rainfall Nowcasting on France using DGMR model
 
-This repository applies the Deep Generative Model of Rainfall (DGMR) developed by Google DeepMind to Meteo-France rainfall data. The goal of this project is to provide accurate short-term rainfall forecasts (nowcasting) on France.
+This repository applies the Deep Generative Model of Rainfall (DGMR), an AI model under the terms of the
+[Creative Commons Attribution 4.0 International License](creativecommons.org/licenses/by/4.0/) developed by Google DeepMind to Meteo-France rainfall data. The goal of this project is to provide accurate short-term rainfall forecasts (nowcasting) on France.
 
 ## Table of Contents
 - [Features](#features)
@@ -57,6 +58,8 @@ If you already don't have an account on the [Météo-France's portal](https://po
 
 Go to this [Google Cloud Storage](https://console.cloud.google.com/storage/browser/dm-nowcasting-example-data?pageState=(%22StorageObjectListTable%22:(%22f%22:%22%255B%255D%22))&project=friendly-retina-382415) link and download all the files and sub-folders in `dm-nowcasting-example-data/tfhub_snapshots/1536x1280` (this folder contains the pre-trained model with a size of 1536x1280).
 
+Note that the AI model is licensed under Creative Commons BY 4.0. 
+
 ### Set Up Environment Variables
 Create a `.env` file in the root directory and add your configuration settings:
 ```plaintext
@@ -108,7 +111,9 @@ The DGMR model is a state-of-the-art generative model designed for weather nowca
 For more details, please see Ravuri, S., Lenc, K., Willson, M. et al. Skilful precipitation nowcasting using deep generative models of radar. Nature 597, 672–677 (2021). https://doi.org/10.1038/s41586-021-03854-z. A notebook is also availbale as a supplement to the article : [notebook](https://github.com/google-deepmind/deepmind-research/tree/master/nowcasting)
 
 ## License
-TODO
+
+- The DGMR pre-trained model is licensed under [Creative Commons Attribution 4.0 International License](creativecommons.org/licenses/by/4.0/).
+- The code in this repository is licensed under the [Apache License, Version 2.0 ](https://apache.org/licenses/LICENSE-2.0).
 
 ## Acknowledgements
 - [Google DeepMind](https://doi.org/10.1038/s41586-021-03854-z) for developing the DGMR model.
