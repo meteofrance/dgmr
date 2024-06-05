@@ -2,9 +2,9 @@ import datetime as dt
 from pathlib import Path
 from typing import List
 
+import h5py
 import numpy as np
 from scipy.ndimage import zoom
-import h5py
 
 from dgmr.settings import DATA_PATH, INPUT_STEPS, TIMESTEP
 
