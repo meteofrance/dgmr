@@ -12,7 +12,7 @@ from dgmr.settings import DATA_PATH, INPUT_STEPS, TIMESTEP
 def get_list_files(date: dt.datetime) -> List[Path]:
     delta = dt.timedelta(minutes=TIMESTEP)
     dates = [date + i * delta for i in range(-INPUT_STEPS + 1, 1)]
-    filenames = [d.strftime("%Y_%m_%d_%H_%M.h5") for d in dates]
+    filenames = [d.strftime("%Y-%m-%d_%Hh%M.h5") for d in dates]
     return [DATA_PATH / f for f in filenames]
 
 
