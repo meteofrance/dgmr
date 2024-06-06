@@ -54,7 +54,7 @@ If you don't already have an account on the [Météo-France Public Data portal](
 
 ### Download the Pretrained Model from DeepMind
 
-Go to this [Google Cloud Storage](https://console.cloud.google.com/storage/browser/dm-nowcasting-example-data?pageState=(%22StorageObjectListTable%22:(%22f%22:%22%255B%255D%22))&project=friendly-retina-382415) link and download all the files and sub-folders in `dm-nowcasting-example-data/tfhub_snapshots/1536x1280` (this folder contains the pre-trained model with a size of 1536x1280).
+Go to this [Google Cloud Storage](https://console.cloud.google.com/storage/browser/dm-nowcasting-example-data?pageState=(%22StorageObjectListTable%22:(%22f%22:%22%255B%255D%22))&project=friendly-retina-382415) link and download the whole folder `dm-nowcasting-example-data/tfhub_snapshots/1536x1280` (this folder contains the pre-trained model with a size of 1536x1280).
 
 Note that the AI model is licensed under Creative Commons BY 4.0.
 
@@ -63,7 +63,7 @@ Create a `.env` file in the root directory and add your configuration settings:
 ```plaintext
 METEO_FRANCE_API_KEY="<your_meteo_france_api_key>"
 METEO_FRANCE_DATA_PATH="<path_to_save_the_downloaded_data>"  # If empty, downloaded data will be saved in ./data
-DGMR_MODEL_PATH="<path_to_the_pretrained_dgmr_folder>"
+DGMR_MODEL_PATH="<path_to_the_pretrained_dgmr_folder>/1536x1280/"
 DGMR_PLOT_PATH="<path_to_save_the_plots>"  # If empty, forecast GIFs will be saved in ./plot
 ```
 
