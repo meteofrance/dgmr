@@ -6,12 +6,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DATA_PATH = os.getenv("METEO_FRANCE_DATA_PATH")
-DATA_PATH = Path("data/") if DATA_PATH == "" else Path(DATA_PATH)
+DATA_PATH = Path("data/") if (DATA_PATH == "" or DATA_PATH is None) else Path(DATA_PATH)
 
 MODEL_PATH = Path(os.getenv("DGMR_MODEL_PATH"))
 
-PLOT_PATH = os.getenv("DGMR_MODEL_PATH")
-PLOT_PATH = Path("plot/") if PLOT_PATH == "" else Path(PLOT_PATH)
+PLOT_PATH = os.getenv("DGMR_PLOT_PATH")
+PLOT_PATH = Path("plot/") if (PLOT_PATH == "" or PLOT_PATH is None) else Path(PLOT_PATH)
 if not PLOT_PATH.exists():
     PLOT_PATH.mkdir(exist_ok=True)
 
