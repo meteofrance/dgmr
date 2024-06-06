@@ -14,10 +14,11 @@ def load_model(image_size: tuple):
         raise ValueError(
             f"Height and width are not available for this model, choose from {image_size}"
         )
+    if MODEL_PATH.name != f"{image_size[0]}x{image_size[1]}":
+        raise FileNotFoundError(f"Model not found for image size {image_size}. Folder path should end with '{image_size[0]}x{image_size[1]}' and now set to '{MODEL_PATH}'.")
 
-    hub_module = hub.load(
-        str(MODEL_PATH / f"deepmind_{image_size[0]}_{image_size[1]}/")
-    )
+    hub_module = hub.load(str(MODEL_PATH))
+
     # Note this has loaded a legacy TF1 model for running under TF2 eager mode.
     # This means we need to access the module via the "signatures" attribute. See
     # https://github.com/tensorflow/hub/blob/master/docs/migration_tf2.md#using-lower-level-apis
