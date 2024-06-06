@@ -71,7 +71,7 @@ DGMR_PLOT_PATH="<path_to_save_the_plots>"  # If empty, forecast GIFs will be sav
 
 ### Downloading Data with Meteo-France's API
 
-Simply run the script `./dgmr/download_data.sh` to download the latest radar images.
+Simply run the script `python download_data.py` to download the latest radar image.
 
 ### Setting up a Cron Job for Automated Data Download
 
@@ -81,9 +81,9 @@ To automate the data downloading process using a cron job, follow these steps:
 
 1. Open your terminal and type `crontab -e` to edit the cron table.
 
-2. Add a new line at the end of the file to define the cron job. The general syntax for a cron task is:
+2. Add a new line at the end of the file to define the cron job. The syntax for the cron task is:
     ```bash
-    */5 * * * * <ABSOLUTE_PATH_TO_REPO>/dgmr/download_data.sh
+    */5 * * * * micromamba activate dgmr && cd <ABSOLUTE_PATH_TO_REPO> && python download_data.py >> cron_output.txt 2>&1
     ```
 
 ### Making Forecasts
