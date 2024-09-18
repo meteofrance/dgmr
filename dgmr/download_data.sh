@@ -15,15 +15,15 @@ if [ ! -d "$METEO_FRANCE_DATA_PATH" ]; then
 fi
 
 get_rounded_date() {
-    current_minutes=$(date +%M)
+    current_minutes=$(date -u +%M)
     rounded_minutes=$(( (current_minutes) / 5 * 5 ))
 
     if [ $rounded_minutes -eq 60 ]; then
         rounded_minutes=0
-        date +"%Y_%m_%d_%H_00" -d "+1 hour"
+        date -u +"%Y_%m_%d_%H_00" -d "+1 hour"
     else
         printf -v rounded_minutes "%02d" $rounded_minutes
-        date +"%Y_%m_%d_%H_$rounded_minutes"
+        date -u +"%Y_%m_%d_%H_$rounded_minutes"
     fi
 }
 
